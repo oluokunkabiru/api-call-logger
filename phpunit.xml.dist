@@ -14,7 +14,7 @@
         </include>
     </source>
     <php>
-        <!-- In-memory SQLite is used when pdo_sqlite is installed; otherwise these MySQL settings. -->
+        <!-- In-memory SQLite is used when pdo_sqlite is installed; otherwise (or with TEST_DB_DRIVER=mysql) these MySQL settings. -->
         <env name="TEST_DB_HOST" value="127.0.0.1"/>
         <env name="TEST_DB_DATABASE" value="api_call_logger_test"/>
         <env name="TEST_DB_USERNAME" value="root"/>

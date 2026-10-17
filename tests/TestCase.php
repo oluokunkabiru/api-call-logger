@@ -17,7 +17,10 @@ abstract class TestCase extends Orchestra
 
     protected function defineEnvironment($app): void
     {
-        if (extension_loaded('pdo_sqlite')) {
+        // TEST_DB_DRIVER=mysql forces MySQL; otherwise in-memory SQLite when available.
+        $driver = env('TEST_DB_DRIVER', extension_loaded('pdo_sqlite') ? 'sqlite' : 'mysql');
+
+        if ($driver === 'sqlite') {
             $app['config']->set('database.default', 'testing');
             $app['config']->set('database.connections.testing', [
                 'driver' => 'sqlite',
