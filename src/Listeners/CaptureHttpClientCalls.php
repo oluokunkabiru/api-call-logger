@@ -42,10 +42,10 @@ class CaptureHttpClientCalls
 
     public function handleConnectionFailed(ConnectionFailed $event): void
     {
-        // Laravel 11+ passes the exception, which wraps the Guzzle exception the middleware saw.
-        $exception = property_exists($event, 'exception') ? $event->exception : null; // @phpstan-ignore function.alreadyNarrowedType
+        // The ConnectionException wraps the Guzzle exception the middleware saw.
+        $exception = $event->exception;
 
-        if ($this->logger->isHandled($exception?->getPrevious())
+        if ($this->logger->isHandled($exception->getPrevious())
             || $this->logger->isHandled($event->request->toPsrRequest())
             || ! $this->shouldCapture($event->request)) {
             return;
@@ -58,7 +58,7 @@ class CaptureHttpClientCalls
             'request_headers' => $event->request->headers(),
             'request_body' => $this->requestBody($event->request),
             'success' => false,
-            'error' => $exception?->getMessage() ?? 'Connection failed',
+            'error' => $exception->getMessage(),
         ]);
     }
 
