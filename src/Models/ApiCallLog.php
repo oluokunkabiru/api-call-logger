@@ -30,6 +30,10 @@ use Oluokunkabiru\ApiCallLogger\Casts\EncryptablePayload;
  * @property string|null $error
  * @property string|null $tenant
  * @property string|null $user_id
+ * @property string|null $loggable_type
+ * @property int|string|null $loggable_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $correlation_id
  * @property string|null $idempotency_key
  * @property int $attempt

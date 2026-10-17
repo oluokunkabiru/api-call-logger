@@ -19,6 +19,7 @@ use Oluokunkabiru\ApiCallLogger\Exceptions\RetryNeedsConfirmation;
 use Oluokunkabiru\ApiCallLogger\Exceptions\RetryNotPossible;
 use Oluokunkabiru\ApiCallLogger\Jobs\PersistApiCallLog;
 use Oluokunkabiru\ApiCallLogger\Models\ApiCallLog;
+use Oluokunkabiru\ApiCallLogger\Support\AttemptTracker;
 use Oluokunkabiru\ApiCallLogger\Support\Payload;
 use Oluokunkabiru\ApiCallLogger\Support\ProviderResolver;
 use Oluokunkabiru\ApiCallLogger\Support\Redactor;
@@ -251,7 +252,7 @@ class ApiCallLogger
     public function middleware(?string $provider = null, ?string $context = null, array $options = []): callable
     {
         // Shared by every attempt Http::retry() sends through this middleware.
-        $previous = (object) ['key' => null, 'failed' => false, 'attempt' => 0, 'idempotency_key' => null];
+        $previous = new AttemptTracker;
 
         return function (callable $handler) use ($provider, $context, $options, $previous) {
             return function (RequestInterface $request, array $guzzleOptions) use ($handler, $provider, $context, $options, $previous) {
@@ -260,15 +261,11 @@ class ApiCallLogger
                 }
 
                 $key = $request->getMethod() . ' ' . $request->getUri();
-                $isRetry = ($this->config['track_attempts'] ?? true) && $previous->key === $key && $previous->failed;
+                $isRetry = ($this->config['track_attempts'] ?? true) && $previous->isRetryOf($key);
                 $options['attempt'] = $isRetry ? $previous->attempt + 1 : 1;
 
-                $request = $this->decorateOutgoing($request, $isRetry ? $previous->idempotency_key : null);
-
-                $previous->key = $key;
-                $previous->attempt = $options['attempt'];
-                $previous->idempotency_key = $this->idempotencyKeyFrom($request->getHeaders());
-                $previous->failed = true; // until a successful response says otherwise
+                $request = $this->decorateOutgoing($request, $isRetry ? $previous->idempotencyKey : null);
+                $previous->start($key, $options['attempt'], $this->idempotencyKeyFrom($request->getHeaders()));
 
                 $start = hrtime(true);
                 $requestBody = Payload::fromMessage($request, $this->maxBodyBytes());
@@ -648,7 +645,7 @@ class ApiCallLogger
 
         $this->withCorrelationId($id);
 
-        return $this->correlationId;
+        return $this->correlationId ?? $id;
     }
 
     protected function correlationIdFromContext(): ?string

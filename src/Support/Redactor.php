@@ -9,6 +9,8 @@ namespace Oluokunkabiru\ApiCallLogger\Support;
  * Two layers: key names (`always` / `sensitive` lists) and value patterns
  * (card numbers, JWTs, auth schemes, emails, phones, custom regexes) that are
  * caught wherever they appear.
+ *
+ * @phpstan-consistent-constructor
  */
 class Redactor
 {

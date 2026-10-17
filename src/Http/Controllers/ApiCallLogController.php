@@ -2,6 +2,8 @@
 
 namespace Oluokunkabiru\ApiCallLogger\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -14,7 +16,7 @@ class ApiCallLogController extends Controller
     /**
      * List and filter logged calls.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $model = $this->model();
 
@@ -49,7 +51,7 @@ class ApiCallLogController extends Controller
         ]);
     }
 
-    public function show(int $log, ApiCallLogger $logger)
+    public function show(int $log, ApiCallLogger $logger): View
     {
         $log = $this->model()::query()->with('retries')->findOrFail($log);
 
@@ -63,7 +65,7 @@ class ApiCallLogController extends Controller
         ]);
     }
 
-    public function retry(Request $request, int $log, ApiCallLogger $logger)
+    public function retry(Request $request, int $log, ApiCallLogger $logger): RedirectResponse
     {
         $log = $this->model()::query()->findOrFail($log);
 
