@@ -1,0 +1,54 @@
+{
+    "name": "oluokunkabiru/api-call-logger",
+    "description": "Provider-agnostic Laravel logger for third-party API calls and incoming webhooks: captures request, response, headers, status and latency with automatic redaction of credentials and PII, plus retry, pruning and a built-in dashboard.",
+    "keywords": ["laravel", "php", "api", "logger", "api-logger", "http-client", "guzzle", "webhook", "third-party", "request-logging", "audit", "redaction", "debugging"],
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/oluokunkabiru/api-call-logger",
+    "authors": [
+        {
+            "name": "OLUOKUN KABIRU ADESINA",
+            "email": "oluokunkabiru2015@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.5",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Oluokunkabiru\\ApiCallLogger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Oluokunkabiru\\ApiCallLogger\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Oluokunkabiru\\ApiCallLogger\\ApiCallLoggerServiceProvider"
+            ],
+            "aliases": {
+                "ApiCallLogger": "Oluokunkabiru\\ApiCallLogger\\Facades\\ApiCallLogger"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

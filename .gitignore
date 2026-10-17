@@ -1,0 +1,15 @@
+/.idea/
+/.vscode/
+/vendor/
+/node_modules/
+/dist/
+composer.lock
+package-lock.json
+.env
+.DS_Store
+*.swp
+*.swo
+*~
+.php_cs.cache
+.phpunit.result.cache
+.phpunit.cache
