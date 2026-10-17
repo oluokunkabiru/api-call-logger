@@ -1,0 +1,22 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+        - config
+        - routes
+        - database
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # Arrays of headers/payloads/config are intentionally loosely shaped.
+        - identifier: missingType.iterableValue
+        # Builder<TModel> / relation generics differ across Laravel 10–13.
+        - identifier: missingType.generics
+        # env() is the documented way to read .env in a package config file.
+        - identifier: larastan.noEnvCallsOutsideOfConfig
+          path: config/api-call-logger.php
+        # Package views live in the api-call-logger:: namespace, unknown to static analysis.
+        - message: '#expects view-string\|null, string given#'
+          path: src/Http/Controllers/ApiCallLogController.php
