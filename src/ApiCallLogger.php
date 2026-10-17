@@ -3,14 +3,15 @@
 namespace Oluokunkabiru\ApiCallLogger;
 
 use Closure;
-use Illuminate\Contracts\Cache\Lock;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use GuzzleHttp\Promise\Create;
+use Illuminate\Contracts\Cache\Lock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -60,7 +61,7 @@ class ApiCallLogger
         protected ProviderResolver $providers,
         protected array $config = [],
     ) {
-        $this->handled = new WeakMap();
+        $this->handled = new WeakMap;
     }
 
     public function enabled(): bool
@@ -472,7 +473,7 @@ class ApiCallLogger
      *
      * @param  bool  $force  Accept the risks listed in retryDecision()->confirmations.
      *
-     * @throws RetryNotPossible       When a rule blocks the retry.
+     * @throws RetryNotPossible When a rule blocks the retry.
      * @throws RetryNeedsConfirmation When the retry is risky and $force is false.
      */
     public function retry(ApiCallLog $log, array $headers = [], bool $force = false): ?ApiCallLog
@@ -650,12 +651,12 @@ class ApiCallLogger
 
     protected function correlationIdFromContext(): ?string
     {
-        if (! class_exists(\Illuminate\Support\Facades\Context::class)) {
+        if (! class_exists(Context::class)) {
             return null;
         }
 
         try {
-            $context = \Illuminate\Support\Facades\Context::getFacadeRoot();
+            $context = Context::getFacadeRoot();
 
             return $context->get(self::CONTEXT_KEY) ?? $context->getHidden(self::CONTEXT_KEY);
         } catch (Throwable) {
@@ -689,12 +690,12 @@ class ApiCallLogger
         $config = $this->config['correlation'] ?? [];
         $toLogs = (bool) ($config['share_with_logs'] ?? false);
 
-        if ((! ($config['propagate_to_jobs'] ?? true) && ! $toLogs) || ! class_exists(\Illuminate\Support\Facades\Context::class)) {
+        if ((! ($config['propagate_to_jobs'] ?? true) && ! $toLogs) || ! class_exists(Context::class)) {
             return;
         }
 
         try {
-            $context = \Illuminate\Support\Facades\Context::getFacadeRoot();
+            $context = Context::getFacadeRoot();
             $toLogs
                 ? $context->add(self::CONTEXT_KEY, $this->correlationId)
                 : $context->addHidden(self::CONTEXT_KEY, $this->correlationId);

@@ -9,9 +9,7 @@ use Illuminate\Support\Str;
  */
 class ProviderResolver
 {
-    public function __construct(protected array $providers = [])
-    {
-    }
+    public function __construct(protected array $providers = []) {}
 
     public function forHost(?string $host): string
     {

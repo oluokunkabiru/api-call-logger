@@ -13,15 +13,13 @@ use Oluokunkabiru\ApiCallLogger\ApiCallLogger;
  * Writes an already redacted log record when `api-call-logger.queue.enabled` is on.
  * The job payload is encrypted on the queue, so bodies never sit there in plain text.
  */
-class PersistApiCallLog implements ShouldQueue, ShouldBeEncrypted
+class PersistApiCallLog implements ShouldBeEncrypted, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
     public int $tries = 3;
 
-    public function __construct(public array $attributes)
-    {
-    }
+    public function __construct(public array $attributes) {}
 
     public function handle(ApiCallLogger $logger): void
     {

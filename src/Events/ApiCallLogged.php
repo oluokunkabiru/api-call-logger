@@ -13,7 +13,5 @@ class ApiCallLogged
 {
     use Dispatchable;
 
-    public function __construct(public ApiCallLog $log)
-    {
-    }
+    public function __construct(public ApiCallLog $log) {}
 }

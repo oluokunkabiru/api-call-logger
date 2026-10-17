@@ -19,9 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LogIncomingRequest
 {
-    public function __construct(protected ApiCallLogger $logger)
-    {
-    }
+    public function __construct(protected ApiCallLogger $logger) {}
 
     public function handle(Request $request, Closure $next, ?string $provider = null, ?string $context = null): Response
     {

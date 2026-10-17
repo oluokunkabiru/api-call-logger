@@ -138,7 +138,7 @@ class AttemptsIdempotencyCorrelationTest extends TestCase
         $this->postJson('api/webhooks/fyatu', [], ['X-Request-Id' => 'req-123'])->assertOk();
 
         $this->freshLogger();
-        $this->postJson('api/webhooks/fyatu', [], ['X-Request-Id' => "bad value; drop table"])->assertOk();
+        $this->postJson('api/webhooks/fyatu', [], ['X-Request-Id' => 'bad value; drop table'])->assertOk();
 
         [$adopted, $generated] = ApiCallLog::orderBy('id')->get();
         $this->assertSame('req-123', $adopted->correlation_id);

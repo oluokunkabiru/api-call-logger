@@ -1,5 +1,7 @@
 <?php
 
+use Oluokunkabiru\ApiCallLogger\Models\ApiCallLog;
+
 /**
  * API Call Logger Configuration
  *
@@ -34,7 +36,7 @@ return [
 
     'connection' => env('API_CALL_LOGGER_DB_CONNECTION'),
 
-    'model' => env('API_CALL_LOGGER_MODEL', Oluokunkabiru\ApiCallLogger\Models\ApiCallLog::class),
+    'model' => env('API_CALL_LOGGER_MODEL', ApiCallLog::class),
 
     /*
     |--------------------------------------------------------------------------

@@ -2,6 +2,8 @@
 
 namespace Oluokunkabiru\ApiCallLogger\Tests;
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
@@ -60,7 +62,7 @@ class OutboundLoggingTest extends TestCase
 
     public function test_connection_failures_are_logged_and_still_thrown(): void
     {
-        Http::fake(fn () => throw new \GuzzleHttp\Exception\ConnectException('Could not resolve host', new \GuzzleHttp\Psr7\Request('GET', 'https://down.example.com')));
+        Http::fake(fn () => throw new ConnectException('Could not resolve host', new Request('GET', 'https://down.example.com')));
 
         try {
             Http::withApiLogging('down')->get('https://down.example.com/ping');

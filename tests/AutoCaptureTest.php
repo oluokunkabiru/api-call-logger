@@ -2,6 +2,7 @@
 
 namespace Oluokunkabiru\ApiCallLogger\Tests;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Oluokunkabiru\ApiCallLogger\Models\ApiCallLog;
 
@@ -48,7 +49,7 @@ class AutoCaptureTest extends TestCase
         try {
             // Nothing listens on port 1, so cURL fails without any fake involved.
             Http::withApiLogging('local')->timeout(2)->get('http://127.0.0.1:1/nothing');
-        } catch (\Illuminate\Http\Client\ConnectionException) {
+        } catch (ConnectionException) {
         }
 
         $this->assertSame(1, ApiCallLog::count());

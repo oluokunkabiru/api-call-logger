@@ -15,9 +15,7 @@ use Oluokunkabiru\ApiCallLogger\Support\Payload;
  */
 class CaptureHttpClientCalls
 {
-    public function __construct(protected ApiCallLogger $logger, protected array $config = [])
-    {
-    }
+    public function __construct(protected ApiCallLogger $logger, protected array $config = []) {}
 
     public function handleResponse(ResponseReceived $event): void
     {

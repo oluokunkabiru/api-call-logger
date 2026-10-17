@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 use Oluokunkabiru\ApiCallLogger\Casts\EncryptablePayload;
 
 /**
@@ -32,8 +33,8 @@ use Oluokunkabiru\ApiCallLogger\Casts\EncryptablePayload;
  * @property string|null $user_id
  * @property string|null $loggable_type
  * @property int|string|null $loggable_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $correlation_id
  * @property string|null $idempotency_key
  * @property int $attempt
@@ -45,6 +46,7 @@ class ApiCallLog extends Model
     use MassPrunable;
 
     public const OUTBOUND = 'outbound';
+
     public const INBOUND = 'inbound';
 
     protected $guarded = ['id'];
