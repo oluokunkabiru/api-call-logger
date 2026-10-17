@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true">
+    <testsuites>
+        <testsuite name="ApiCallLogger">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+    <php>
+        <!-- In-memory SQLite is used when pdo_sqlite is installed; otherwise these MySQL settings. -->
+        <env name="TEST_DB_HOST" value="127.0.0.1"/>
+        <env name="TEST_DB_DATABASE" value="api_call_logger_test"/>
+        <env name="TEST_DB_USERNAME" value="root"/>
+        <env name="TEST_DB_PASSWORD" value=""/>
+    </php>
+</phpunit>
