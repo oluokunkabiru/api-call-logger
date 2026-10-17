@@ -1,8 +1,14 @@
 # Changelog
 
-## 1.0.0 - 2026-10-16
+All notable changes to this package are documented here. The project follows
+[Semantic Versioning](https://semver.org): while the version is 0.x, minor releases
+may contain breaking changes.
 
-- Initial release.
+## [Unreleased]
+
+## [0.1.0] - 2026-10-17
+
+- Initial release. Requires PHP 8.2+ and Laravel 12 or 13.
 - Outbound logging with `Http::withApiLogging()`, `ApiCallLogger::http()` and Guzzle middleware.
 - Optional automatic capture of every Http client call, with host → provider mapping.
 - `api-call-logger.inbound` middleware for incoming webhooks.
@@ -23,3 +29,6 @@
 - Correlation id propagated to queued jobs via Context, adoptable from a request header or
   W3C `traceparent`, optionally forwarded to providers.
 - `forget()` and `api-call-logger:forget` for data-subject erasure.
+
+[Unreleased]: https://github.com/oluokunkabiru/api-call-logger/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/oluokunkabiru/api-call-logger/releases/tag/v0.1.0
